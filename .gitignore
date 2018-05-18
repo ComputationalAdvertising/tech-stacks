@@ -4,4 +4,7 @@ out/
 
 # GCC
 *.o
-*.so
+*.so 
+
+# Third party
+third_party/
