@@ -1,10 +1,11 @@
-# executable
+# Compile 
+build/ 
 bin/
-out/ 
-
-# GCC
-*.o
-*.so 
+lib/ 
+out/
+*.o 
+*.so
+*.a 
 
 # Third party
-third_party/
+third_party/ 
