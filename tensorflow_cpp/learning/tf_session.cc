@@ -12,6 +12,6 @@ int main(int argc, char** argv) {
     cout << status.ToString() << "\n";
     return 1;
   }
-  cout << "Session successfully created." << std::endl;
+  cout << "Session successfully created. status.ToString: " << status.ToString() << std::endl;
   return 0;
 }
