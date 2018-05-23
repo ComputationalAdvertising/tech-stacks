@@ -1,0 +1,7 @@
+1. std::vector<boost::any> raw_features;
+2. class PredictorRequestContext : public boost::noncopyable {}
+
+3. muduo
+  1.<muduo/net/EventLoopThread.h>
+  2. muduo 是一个基于 Reactor 模式的现代 C++ 网络库，它采用非阻塞 IO 模型，基于事件驱动和回调，原生支持多核多线程，适合编写 Linux 服务端多线程网络应用程序
+  3. https://www.cnblogs.com/qiangxia/p/4892562.html
