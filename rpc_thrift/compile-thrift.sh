@@ -5,7 +5,7 @@ PROJECT_DIR=$SCRIPT_DIR
 
 thrift_cpp_out=$PROJECT_DIR/learning
 
-thrift="$PROJECT_DIR/third_party/deps/bin/thrift"
+thrift="$PROJECT_DIR/third_party/deps/thrift/bin/thrift"
 
 function compile_thrift() {
   target=$1

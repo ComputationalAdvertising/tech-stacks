@@ -25,6 +25,7 @@ using namespace apache::thrift::server;
 using namespace tutorial;
 using namespace shared;
 
+// complete a handler
 class CalculatorHandler : public CalculatorIf {
   public:
     CalculatorHandler() {}
@@ -37,7 +38,7 @@ class CalculatorHandler : public CalculatorIf {
     }
 
     int32_t calculate(const int32_t logid, const Work& work) {
-      std::cout << "server calculate(" << logid << ", " << work << ")" << std::endl;
+      std::cout << "[server] calculate(" << logid << ", " << work << ")" << std::endl;
       int32_t val;
 
       switch (work.op) {

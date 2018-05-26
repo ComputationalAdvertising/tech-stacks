@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TSocket.h>
@@ -7,7 +8,7 @@
 
 #include "gen-cpp/Calculator.h"
 
-using namespace apache::thrift;
+using namespace apache::thrift;  // stdcxx::shared_ptr
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 
@@ -17,17 +18,16 @@ using namespace shared;
 int main(int argc, char** argv) {
   std::string hostname("localhost");
   int port = 9090;
-  //stdcxx::shared_ptr<TTransport> socket(new TSocket(hostname, port));
-  stdcxx::shared_ptr<TSocket> socket(new TSocket(hostname, port));
-  stdcxx::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
-  stdcxx::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport)); 
+  std::shared_ptr<TSocket> socket(new TSocket(hostname, port));
+  std::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+  std::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport)); 
   CalculatorClient client(protocol);
 
   try {
     transport->open();
   
-    client.ping();
     std::cout << "ping() ..." << std::endl;
+    client.ping();
 
     std::cout << "1 + 1 = " << client.add(1, 1) << std::endl; 
 
@@ -45,8 +45,12 @@ int main(int argc, char** argv) {
     work.op = Operation::SUBTRACT;
     work.num1 = 15;
     work.num2 = 10;
-    int32_t diff = client.calculate(1, work);
-    std::cout << "15 - 10 = " << diff << std::endl;
+
+    for (auto i = 0; i < 10; ++i) {
+      int32_t diff = client.calculate(1, work);
+      std::cout << "15 - 10 = " << diff << std::endl; 
+
+    }
 
     SharedStruct ss;
     client.getStruct(ss, 1);
