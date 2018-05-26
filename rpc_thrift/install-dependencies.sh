@@ -12,10 +12,10 @@ SCRIPT_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 THIRD_PARTY_DIR=$SCRIPT_DIR/third_party
 
 if [ ! -d $THIRD_PARTY_DIR ]; then mkdir -p $THIRD_PARTY_DIR; fi 
-cd $THIRD_PARTY_DIR 
 
 ##################################
 function install_thrift() {
+  cd $THIRD_PARTY_DIR 
   thrift_version=0.11.0
   url=https://github.com/apache/thrift/archive/${thrift_version}.tar.gz
   wget $url
@@ -28,15 +28,16 @@ function install_thrift() {
   ln -s $THIRD_PARTY_DIR/deps/thrift-${thrift_version} $THIRD_PARTY_DIR/deps/thrift
 
   if [ $? -eq 0 ]; then
-    echo "successful to build. drop raw package."
+    echo "successful to build thrift. drop raw package."
     rm $THIRD_PARTY_DIR/${thrift_version}.tar.gz  
     rm -rf $THIRD_PARTY_DIR/thrift-${thrift_version}
   else
-    echo "failed to build."
+    echo "failed to build thrift.."
   fi
 }
 
 function install_snappy() {
+  cd $THIRD_PARTY_DIR 
   snappy_version=1.1.7
   url=https://github.com/google/snappy/archive/${snappy_version}.tar.gz
   wget $url
@@ -55,9 +56,8 @@ function install_snappy() {
 
 ##################################
 # 1. Thrift 
-#install_thrift
+install_thrift
 # 2. snappy 
 install_snappy
-
 
 echo "======== ${BASH_SOURCE[0]} ========"
