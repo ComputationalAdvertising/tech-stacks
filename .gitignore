@@ -14,4 +14,9 @@ third_party/
 common/
 graph/ 
 proto/ 
-model/
+model/ 
+
+# Java
+openmit-streaming/.idea/
+.idea/ 
+target/
