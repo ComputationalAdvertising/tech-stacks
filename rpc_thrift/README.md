@@ -1,5 +1,13 @@
 # Thrift Learning and Use
 
+
+**软件版本与依赖**
+
+| 软件名 | 版本 | 必须? | 备注 |
+| --- | --- | --- | --- |
+| `thrift` | `0.10.0` | yes | 因为很多依赖thrift的程序没有切换成`stdcxx::shared_ptr`，用`0.11.0`版本，会造成`no match function...`参数类型问题。|
+| `snappy` | `1.1.7` | no | 软件压缩库 |
+
 ## 安装 
 
 运行环境：GCC版本支持c++11.
