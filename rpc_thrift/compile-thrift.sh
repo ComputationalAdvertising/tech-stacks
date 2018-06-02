@@ -5,7 +5,11 @@ PROJECT_DIR=$SCRIPT_DIR
 
 thrift_cpp_out=$PROJECT_DIR/learning
 
-thrift="$PROJECT_DIR/third_party/deps/thrift/bin/thrift"
+
+thrift=`which thrift`
+if [[ "" == $thrift ]]; then
+  thrift="$PROJECT_DIR/third_party/deps/thrift/bin/thrift"
+fi
 
 function compile_thrift() {
   target=$1

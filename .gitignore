@@ -9,3 +9,14 @@ out/
 
 # Third party
 third_party/ 
+
+# Project
+common/
+graph/ 
+proto/ 
+model/ 
+
+# Java
+openmit-streaming/.idea/
+.idea/ 
+target/
