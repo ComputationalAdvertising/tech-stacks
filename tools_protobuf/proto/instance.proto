@@ -30,7 +30,7 @@ message Features {
 }
 
 message Instance {
-  uint64 inst_id = 1;
+  uint64 key = 1;
   float inst_weight = 2;
   Label label = 3;
   Features features = 4;
@@ -38,7 +38,7 @@ message Instance {
 }
 
 message Instances {
-  repeated Instance instances = 1;
-  uint64 logid = 2;
+  uint64 sessionid = 1;
+  repeated Instance instances = 2;
   map<string, string> meta_info = 3;
 }

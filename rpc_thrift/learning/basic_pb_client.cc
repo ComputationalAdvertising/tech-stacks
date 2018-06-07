@@ -5,7 +5,6 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
-#include <thrift/stdcxx.h> 
 
 #include <snappy.h>
 
@@ -22,9 +21,9 @@ using namespace shared;
 int main(int argc, char** argv) {
   std::string hostname("localhost");
   int port = 9090;
-  std::shared_ptr<TSocket> socket(new TSocket(hostname, port));
-  std::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
-  std::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport)); 
+  boost::shared_ptr<TSocket> socket(new TSocket(hostname, port));
+  boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+  boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport)); 
   PredictorClient client(protocol);
 
   try {

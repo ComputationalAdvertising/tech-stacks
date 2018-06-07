@@ -1,7 +1,8 @@
 #include <iostream>
+#include <map>
+#include <memory>
 #include <stdexcept>
 #include <sstream> 
-#include <map>
 
 #include <thrift/concurrency/PlatformThreadFactory.h>
 #include <thrift/protocol/TBinaryProtocol.h>
@@ -12,7 +13,6 @@
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TTransportUtils.h>
 #include <thrift/TToString.h>
-#include <thrift/stdcxx.h>
 
 #include "gen-cpp/Predictor.h"
 
@@ -42,6 +42,7 @@ public:
   }
 
   double predict(const Instance& inst) {
+    std::cout << "[predict] inst.seq_id: " << inst.seq_id << std::endl;
     return inst.seq_id * 0.01;
   }
 };
@@ -52,7 +53,8 @@ public:
   virtual ~PredictorCloneFactory() {}
 
   virtual PredictorIf* getHandler(const TConnectionInfo& connInfo) {
-      stdcxx::shared_ptr<TSocket> sock = stdcxx::dynamic_pointer_cast<TSocket>(connInfo.transport);
+      //boost::shared_ptr<TSocket> sock = std::dynamic_pointer_cast<TSocket>(connInfo.transport);
+    boost::shared_ptr<TSocket> sock = boost::dynamic_pointer_cast<TSocket>(connInfo.transport);
     std::cout << "Incoming connection" << "\thost: " << sock->getPeerHost() << ", port: " << sock->getPeerPort() << std::endl;
     return new PredictorHandler;
   }
@@ -63,12 +65,12 @@ public:
 };
 
 int main(int argc, char** argv) {
-  stdcxx::shared_ptr<TServerSocket> socket(new TServerSocket(9090));
-  stdcxx::shared_ptr<TBufferedTransportFactory> transport(new TBufferedTransportFactory());
-  stdcxx::shared_ptr<TBinaryProtocolFactory> protocol(new TBinaryProtocolFactory());
+  boost::shared_ptr<TServerSocket> socket(new TServerSocket(9090));
+  boost::shared_ptr<TBufferedTransportFactory> transport(new TBufferedTransportFactory());
+  boost::shared_ptr<TBinaryProtocolFactory> protocol(new TBinaryProtocolFactory());
 
-  stdcxx::shared_ptr<PredictorCloneFactory> calculatorClone(new PredictorCloneFactory());
-  stdcxx::shared_ptr<PredictorProcessorFactory> processor(new PredictorProcessorFactory(calculatorClone));
+  boost::shared_ptr<PredictorCloneFactory> calculatorClone(new PredictorCloneFactory());
+  boost::shared_ptr<PredictorProcessorFactory> processor(new PredictorProcessorFactory(calculatorClone));
 
   TThreadedServer server(processor, socket, transport, protocol);
 
