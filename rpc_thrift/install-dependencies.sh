@@ -59,7 +59,7 @@ function install_snappy() {
 
 ##################################
 # 1. Thrift 
-install_thrift
+#install_thrift
 # 2. Snappy 
 install_snappy
 

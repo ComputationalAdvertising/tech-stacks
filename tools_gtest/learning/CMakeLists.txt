@@ -4,7 +4,7 @@
 #  ${SOURCES_CORE}
 #)
 #
-#set(static_lib tstoolsgflags)
+#set(static_lib openmittoolsgtest)
 #add_library(${static_lib} STATIC ${SOURCES})
 #target_link_libraries(${static_lib} ${link_library_names}) 
 

@@ -2,8 +2,8 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-#PROTOBUF_HOME=$SCRIPT_DIR/third_party/deps/protobuf 
-PROTOBUF_HOME=/home/zhouyongsdzh/software/local
+PROTOBUF_HOME=$SCRIPT_DIR/third_party/deps/protobuf 
+#PROTOBUF_HOME=/home/zhouyongsdzh/software/local
 if [ ! -d $PROTOBUF_HOME ]; then
   echo "$PROTOBUF_HOME not exist. install it."
   sh $SCRIPT_DIR/tools_protobuf/install-dependencies.sh
