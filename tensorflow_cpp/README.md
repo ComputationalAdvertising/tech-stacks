@@ -33,6 +33,22 @@ which bazel
 > 1. Ubuntu上安装bazel 参考官网：https://docs.bazel.build/versions/master/install-ubuntu.html . 官网也介绍了bazel的二进制安装方式（Install using binary installer） .参考：https://www.tensorflow.org/get_started/get_started
 > 2. 注意Tensorflow版本与bazel版本的一致性；
 
+**安装cuda与cuDNN** [Option]
+
+```bash
+# 安装cuda
+wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda_8.0.61_375.26_linux-run
+sudo sh cuda_8.0.61_375.26_linux.run --override --silent --toolkit # 安装的cuda在/usr/local/cuda下面
+
+安装cdDNN
+cd /usr/local/cuda # cuDNN放在这个目录下解压
+wget http://developer.download.nvidia.com/compute/redist/cudnn/v6.0/cudnn-8.0-linux-x64-v6.0.tgz
+tar -xzvf cudnn-8.0-linux-x64-v6.0.tgz
+sudo cp cuda/include/cudnn.h /usr/local/cuda/include
+sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
+sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
+```
+
 **源码编译TF**
 
 ```bash
