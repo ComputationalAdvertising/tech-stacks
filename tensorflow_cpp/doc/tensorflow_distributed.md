@@ -1,6 +1,6 @@
 ### Tensor的定义与操作
 
-Tensor是TF的信息存储单元，其结构定义在tensor.proto文件中，包含数据类型、TensorShape，以及其它变量信息。一个比较重要的字段：`bytes tensor_content = 4` 存储Tensor的内容，用于grpc通信机器间信息交互和`Tensor::AsProtoTensorContent`。具体见`tensorflow/core/framework/tensor.proto`
+Tensor是TF的信息存储单元，其结构定义在tensor.proto文件中，包含DataType、TensorShape，以及其它变量信息。一个比较重要的字段：`bytes tensor_content = 4` 存储Tensor的内容，用于grpc通信时机器间信息交互和`Tensor::AsProtoTensorContent`。具体见`tensorflow/core/framework/tensor.proto`
 
 tensor.h给出了Tensor的操作和功能。
 
@@ -19,7 +19,7 @@ tensor.h给出了Tensor的操作和功能。
 
 测试：`./bazel-bin/tensorflow/core/common_runtime_direct_session_test`
 
-Graph中可以添加Node，也可以添加Var，具体的节点类型可以很多，比如`Send/Recv/Reduce/...`，实现在`tensorflow/core/graph/testlib.cc`
+Graph中可以添加Node，也可以添加Var，具体的节点类型 很多，比如`Send/Recv/Reduce/...`，实现在`tensorflow/core/graph/testlib.cc`
 
 ```c++
 // Adds a send node "g" sending "input" as a named "tensor" from
@@ -97,8 +97,11 @@ Status RunProto(CallOptions* call_options, MutableRunStepRequestWrapper* req, Mu
 // 小结：Executor创建和初始化的过程，实质上是计算图节点创建的过程（在执行层面），依赖和边的构建
 ->-> [tensorflow/core/common_runtime/executor.cc:639] Status s = params_.create_kernel(n->def(), &item->kernel); 
     // 基于NodeDef创建OpKernel实例。直接调用params.create_kernel的CreateNonCachedKernel方法
-->->-> [tensorflow/core/framework/op_kernel.cc:1053] Status CreateOpKernel(DeviceType device_type, ..., const NodeDef& node_def, ..., OpKernel** kernel) 
-// 
+->->-> [core/framework/op_kernel.cc:1053] Status CreateOpKernel(DeviceType device_type, ..., const NodeDef& node_def, ..., OpKernel** kernel)  // 创建OpKernel的方法
+->->->-> [core/framework/op_kernel.cc:1110] OpKernelConstruction context(...);  // 用OpKernel构造器完成之后，调用OpKernel注册工厂完成注册。OpKernelRegistrar::Factory
+->->->-> [core/framework/op_kernel.cc:1113] *kernel = (*registration->factory)(&context);
+->->->->-> [core/framework/op_kernel.cc:816] struct KernelRegistration { kernel_factory::OpKernelRegistrar::Factory factory; }
+// ???? 如何调用到具体的opkernel的？
 ```
 
     
