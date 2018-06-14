@@ -104,5 +104,35 @@ Status RunProto(CallOptions* call_options, MutableRunStepRequestWrapper* req, Mu
 // ???? 如何调用到具体的opkernel的？
 ```
 
+
+
+########## 代码
+
+1. MasterSession: 资源分配，Node在device上的分配，图计算；
+2. Rendezous：负责Send/Recv功能
+    + `RpcRendezvousMgr`
+3. dist/master.h中的`std::unordered_map<string, MasterSession*> sessions_ GUARDED_BY(mu_);` 含义是什么？
+4. 博客`GrpcRemoteWorker接收master的请求，交由GrpcWorkerService执行。`如何做到的？
+    + https://zhuanlan.zhihu.com/p/26031658
+5. 节点执行过程
+
+    ```
+    tensorflow/core/common_runtime/executor.cc
+    core/kernels/sendrecv_ops.cc:79
+    tensorflow/core/framework/rendezvous.cc
+    ``` 
+    
+    rendez_->Send(Key(ALICE, kIncarnation, BOB, "a"), args, V(1.0)...)直接远端直接分配内存：MemoryLogTensorAllocation
+    
+6. OpKernelContext包含的信息？
+7. 构建图的时候会涉及到SendOp/RecvOp? 指定Tensor的名字，在真正执行操作时会按照tensor name来传输，怎么在真正执行时拆分呢？
+
+
+**问题**
+
+1. 分布式图构建时，已经根据tensor name建立了`<worker, ps>`之间的连接，接下来的数据通信是以tensor为单位进行的，如何拆解？ DoneCallBack的处理逻辑是什么？
+2. 改写Tensor，完成Tensor的拆解；
+3. DoneCallBack执行：NodeDone(s, state->item->node, ready, stats, nullptr);（executor）
+    
     
 
