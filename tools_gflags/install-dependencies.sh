@@ -10,7 +10,7 @@ cd $THIRD_PARTY_DIR
 
 # gflags
 url=https://github.com/gflags/gflags.git 
-#git clone $url
+git clone $url
 
 if [ ! -d gflags/build_gflags ]; then
   mkdir -p gflags/build_gflags || echo "build_gflags exists!"

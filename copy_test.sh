@@ -10,3 +10,4 @@ do
     echo "$dir is file"
   fi
 done
+

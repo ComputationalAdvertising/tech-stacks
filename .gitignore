@@ -9,6 +9,7 @@ out/
 
 # Third party
 third_party/ 
+deps/
 
 # Project
 common/
@@ -19,4 +20,7 @@ model/
 # Java
 openmit-streaming/.idea/
 .idea/ 
-target/
+target/ 
+
+# gen-pb
+gen-pb/
