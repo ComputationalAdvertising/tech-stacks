@@ -18,7 +18,7 @@ function install_thrift() {
   cd $THIRD_PARTY_DIR 
   thrift_version=0.10.0
   url=https://github.com/apache/thrift/archive/${thrift_version}.tar.gz
-  wget $url
+  #wget $url
   tar -zxvf ${thrift_version}.tar.gz && cd thrift-$thrift_version
 
   install_dir=$THIRD_PARTY_DIR/deps/thrift-${thrift_version} && (mkdir -p $install_dir || echo "$install_dir exists")
