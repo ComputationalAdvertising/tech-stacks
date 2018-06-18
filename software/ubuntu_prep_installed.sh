@@ -7,4 +7,6 @@ sudo apt install libtool-bin
 
 sudo apt-get install autotools-dev m4 autoconf2.13 automake autoconf-archive gnu-standards autoconf-doc libtool
 
-sudo apt install cmake
+sudo apt install cmake 
+
+sudo apt-get install tree

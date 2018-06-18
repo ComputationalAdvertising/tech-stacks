@@ -1,15 +1,15 @@
 #!/bin/bash -e
 
 #=================================#
-# 1. muduo-1.1.0
+# 1. muduo-1.1.0 
+# 2. gperftools-2.7
 #=================================#
 
 set -o pipefail
 set -o errexit
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-mkdir -p third_party || echo "third_party has exists!"
+mkdir -p $SCRIPT_DIR/third_party || echo "third_party has exists!"
 
 ##################################
 function install_muduo() {
@@ -20,7 +20,7 @@ function install_muduo() {
   tar -zxvf v${version}.tar.gz && cd muduo-$version
 
   install_dir=$SCRIPT_DIR/third_party/deps/muduo-$version
-  mkdir -p build || echo "build has exists!" 
+  mkdir -p build || echo "build exists!" 
   cd build
   cmake -DCMAKE_INSTALL_PREFIX=$install_dir -DCMAKE_BUILD_NO_EXAMPLES=1 -DCMAKE_BUILD_TYPE="release" ..
   make -j8 && make install
@@ -32,8 +32,8 @@ function install_muduo() {
   # drop 
   if [ $? -eq 0 ]; then
     echo "success to build muduo. drop raw package."
-    rm $SCRIPT_DIR/third_party/v${version}.tar.gz 
-    rm -rf $SCRIPT_DIR/third_party/muduo-$version 
+    #rm $SCRIPT_DIR/third_party/v${version}.tar.gz 
+    #rm -rf $SCRIPT_DIR/third_party/muduo-$version 
   else
     echo "failed to build muduo."
   fi
@@ -55,13 +55,13 @@ function install_gperftools() {
   ln -s gperftools-$version gperftools
   
   # drop 
-  if [ $? -eq 0 ]; then
-    echo "success to build gperftools. drop raw package."
-    rm $SCRIPT_DIR/third_party/gperftools-${version}.tar.gz* 
-    rm -rf $SCRIPT_DIR/third_party/gperftools-gperftools-${version}
-  else
-    echo "failed to build gperftools."
-  fi
+  #if [ $? -eq 0 ]; then
+  #  echo "success to build gperftools. drop raw package."
+  #  rm $SCRIPT_DIR/third_party/gperftools-${version}.tar.gz* 
+  #  rm -rf $SCRIPT_DIR/third_party/gperftools-gperftools-${version}
+  #else
+  #  echo "failed to build gperftools."
+  #fi
   
 }
 
