@@ -10,7 +10,30 @@
 
 using namespace Eigen;
 
+// 1. Eigen::MatrixXd
+void matrixxd_basic() {
+  
+}
+
+// 2. MatrixXd * MatrixXd 
+void matrix_matmul() {
+
+}
+
+// 3. Eigen::Dynamic 
+//using MatrixF = Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>  // error
+typedef Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixF;
+//using MatrixD = Eigen;:Matrix<double, Eigen::Dynamic, Eigen::Dynamic>;
+void matrix_dynamic(MatrixF& m) {
+  //Eigen::Matrix3f m3 = Eigen::Matrix3f::Zero(3,3);
+  Eigen::Matrix3f m3 = Eigen::Matrix3f::Identity(3,3);
+  m3(0, 2) = 3;
+  m = m3; 
+  std::cout << "[EXP3] Eigen::Dynamic m =\n" << m << "\nm.row(1):\n" << m.row(1) << std::endl;
+}
+
 int main(int argc, char** argv) {
+  // 1. 
   Eigen::MatrixXd m = MatrixXd::Constant(4,4,0.1);
   m(0, 0) = 3;
   m(1, 0) = 2.5;
@@ -28,6 +51,11 @@ int main(int argc, char** argv) {
   std::cout << "\n=========================\n[EXP2] em =\n" << em << std::endl;
   Eigen::VectorXd v(3);
   v << 1, 2, 3;
-  std::cout << "[EXP2] em * v = \n" << em * v << std::endl; 
+  std::cout << "[EXP2] em * v = \n" << em * v << std::endl;  
+
+  // 3. matrix dynamic 
+  MatrixF mf;
+  matrix_dynamic(mf);
+
   return 0;
 }
