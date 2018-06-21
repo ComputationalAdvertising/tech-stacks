@@ -29,5 +29,7 @@ endfunction()
 #add_program("basic_client")
 #add_program("basic_server")
 
-add_program("basic_pb_client")
-add_program("basic_pb_server")
+#add_program("basic_pb_client")
+#add_program("basic_pb_server") 
+
+add_program("thrift_thread_manager")

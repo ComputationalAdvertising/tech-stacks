@@ -12,7 +12,7 @@ if [ ! -d $SCRIPT_DIR/learning/gen-cpp ]; then
 fi
 sh $SCRIPT_DIR/../tools_protobuf/compile-pb.sh
 
-export THRIFT_HOME=$PROJECT_DIR/third_party/deps
+export THRIFT_HOME=$PROJECT_DIR/third_party/deps/thrift
 export PROTOBUF_HOME=$PROJECT_DIR/../tools_protobuf/third_party/deps/protobuf  
 
 cp -r $SCRIPT_DIR/../tools_protobuf/gen-pb $SCRIPT_DIR

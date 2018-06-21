@@ -21,11 +21,11 @@ link_directories(
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}) 
 
+  #libthrift_c_glib.a
+  #libthriftnb.a 
 set(link_libs
   -pthread
   libthrift.a 
-  libthrift_c_glib.a
-  libthriftnb.a 
   libthriftz.a
   libprotobuf.a
   libprotoc.a
