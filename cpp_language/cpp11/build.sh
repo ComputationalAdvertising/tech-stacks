@@ -10,5 +10,6 @@ echo "cpp compiler: $GCC"
 
 mkdir -p bin || echo "bin exists!"
 
-source_file="callback_lambda"
+#source_file="callback_lambda"
+source_file="array"
 $GCC -std=c++11 ${source_file}.cc -o bin/${source_file}
