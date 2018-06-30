@@ -39,5 +39,8 @@ endfunction()
 #add_program("basic_pb_server") 
 
 #add_program("thrift_thread_manager")
-add_program("client")
-add_program("server")
+
+#add_program("client")
+#add_program("server")
+
+add_program("synchronizer")

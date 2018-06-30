@@ -50,4 +50,5 @@ set(link_libs
   libgflags.a
 )
 
-add_subdirectory(learning)
+#add_subdirectory(learning)
+add_subdirectory(learning/openmit-common)
