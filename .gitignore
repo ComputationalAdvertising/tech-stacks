@@ -23,4 +23,9 @@ openmit-streaming/.idea/
 target/ 
 
 # gen-pb
-gen-pb/
+gen-pb/ 
+
+# Thrift output
+gen-cpp/
+gen-java/
+gen-py/

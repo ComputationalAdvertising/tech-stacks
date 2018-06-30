@@ -12,5 +12,6 @@ struct Instance {
 service Predictor extends shared.SharedService {
   string ping(),
   Instance get_instance(1:Instance inst),
-  double predict(1:Instance inst)
+  double predict(1:Instance inst),
+  void TestBinary(1:binary bin)
 }

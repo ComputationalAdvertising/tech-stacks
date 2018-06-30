@@ -3,6 +3,7 @@
 #=================================#
 # 1. thrift-0.10.0
 # 2. snappy-1.1.7
+# 3. libevent-
 #=================================#
 
 set -o pipefail
@@ -13,7 +14,35 @@ THIRD_PARTY_DIR=$SCRIPT_DIR/third_party
 
 if [ ! -d $THIRD_PARTY_DIR ]; then mkdir -p $THIRD_PARTY_DIR; fi 
 
-##################################
+################################## 
+# deps 
+function install_libevent() { 
+  cd $THIRD_PARTY_DIR
+  version=2.0.22
+  url=https://github.com/nmathewson/Libevent/archive/release-${version}-stable.tar.gz
+  wget $url 
+  tar -zxvf release-${version}-stable.tar.gz  
+  cd Libevent-release-${version}-stable 
+  aclocal && autoconf && autoheader && libtoolize --automake --copy --debug  --force && automake -a  
+  install_dir=$THIRD_PARTY_DIR/deps/libevent-$version && (mkdir -p $install_dir || echo "$install_dir exists!")
+  ./configure --prefix=$install_dir 
+  make && make install 
+  link_dir=$THIRD_PARTY_DIR/deps && (mkdir -p $link_dir || echo "$link_dir exists!")
+  cd $THIRD_PARTY_DIR/deps && ln -s libevent-$version libevent 
+
+  if [ $? -eq 0]; then 
+    echo "successful to build libevent. drop raw package"
+    rm $THIRD_PARTY_DIR/release-${version}-stable.tar.gz 
+    rm -rf $THIRD_PARTY_DIR/Libevent-release-${version}-stable 
+  else
+    echo "failed to build libevent."
+  fi 
+
+  cp -r $THIRD_PARTY_DIR/deps/libevent/bin/* $HOME/local/bin/
+  cp -r $THIRD_PARTY_DIR/deps/libevent/include/* $HOME/local/include/
+  cp -r $THIRD_PARTY_DIR/deps/libevent/lib/libevent*.a $HOME/local/lib/
+}
+
 function install_thrift() {
   cd $THIRD_PARTY_DIR 
   thrift_version=0.10.0
@@ -24,7 +53,8 @@ function install_thrift() {
 
   install_dir=$THIRD_PARTY_DIR/deps/thrift-${thrift_version} && (mkdir -p $install_dir || echo "$install_dir exists")
   ./bootstrap.sh
-  ./configure CXXFLAGS='-g -O3' CFLAGS='-g -O3' CPPFLAGS='-DDEBUG_MY_FEATURE' --enable-coverage --prefix=$install_dir --with-php=no --with-php_extension=no --with-dart=no --with-ruby=no --with-haskell=no --with-go=no --with-rs=no --with-haxe=no --with-dotnetcore=no --with-d=no --with-qt4=no --with-qt5=no --with-csharp=no --with-java=no --with-erlang=no --with-nodejs=no --with-lua=no --with-perl=no --with-python=no --with-cpp
+  ./configure --with-boost-libdir=$HOME/local/lib CXXFLAGS='-g -O3' CFLAGS='-g -O3' CPPFLAGS='-DDEBUG_MY_FEATURE' --enable-coverage --prefix=$install_dir --with-php=no --with-php_extension=no --with-dart=no --with-ruby=no --with-haskell=no --with-go=no --with-rs=no --with-haxe=no --with-dotnetcore=no --with-d=no --with-qt4=no --with-qt5=no --with-csharp=no --with-java=no --with-erlang=no --with-nodejs=no --with-lua=no --with-perl=no --with-python=no --with-cpp --with-libevent=$HOME/local
+  #./configure CXXFLAGS='-g -O3' CFLAGS='-g -O3' CPPFLAGS='-DDEBUG_MY_FEATURE' --enable-coverage --prefix=$install_dir --with-php=no --with-php_extension=no --with-dart=no --with-ruby=no --with-haskell=no --with-go=no --with-rs=no --with-haxe=no --with-dotnetcore=no --with-d=no --with-qt4=no --with-qt5=no --with-csharp=no --with-java=no --with-erlang=no --with-nodejs=no --with-lua=no --with-perl=no --with-python=no --with-cpp
   #./configure --with-boost-libdir=/usr/lib/x86_64-linux-gnu CXXFLAGS='-g -O3' CFLAGS='-g -O3' CPPFLAGS='-DDEBUG_MY_FEATURE' --enable-coverage --prefix=$install_dir --with-php=no --with-php_extension=no --with-dart=no --with-ruby=no --with-haskell=no --with-go=no --with-rs=no --with-haxe=no --with-dotnetcore=no --with-d=no --with-qt4=no --with-qt5=no --with-csharp=no --with-java=no --with-erlang=no --with-nodejs=no --with-lua=no --with-perl=no --with-python=no --with-cpp
   make -j8 && make install 
   link_dir=$THIRD_PARTY_DIR/deps && (mkdir -p $link_dir || echo "$link_dir exists")
@@ -33,8 +63,8 @@ function install_thrift() {
 
   if [ $? -eq 0 ]; then
     echo "successful to build thrift. drop raw package."
-    rm $THIRD_PARTY_DIR/${thrift_version}.tar.gz* || echo "rm done!"
-    rm -rf $THIRD_PARTY_DIR/thrift-${thrift_version} || echo "rm done!"
+    #rm $THIRD_PARTY_DIR/${thrift_version}.tar.gz* || echo "rm done!"
+    #rm -rf $THIRD_PARTY_DIR/thrift-${thrift_version} || echo "rm done!"
   else
     echo "failed to build thrift.."
   fi
@@ -59,7 +89,9 @@ function install_snappy() {
   rm -rf $THIRD_PARTY_DIR/snappy-${snappy_version} || echo "rm done!"
 }
 
-##################################
+################################## 
+# deps
+install_libevent
 # 1. Thrift 
 install_thrift
 # 2. Snappy 

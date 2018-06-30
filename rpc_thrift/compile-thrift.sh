@@ -3,7 +3,7 @@
 SCRIPT_DIR=$(cd "$(dirname ${BASH_SOURCE[0]})" && pwd)
 PROJECT_DIR=$SCRIPT_DIR
 
-thrift_cpp_out=$PROJECT_DIR/learning
+thrift_out_dir=$PROJECT_DIR/learning/openmit-idl
 
 
 thrift=`which thrift`
@@ -17,10 +17,12 @@ function compile_thrift() {
     for file in `ls $target`
     do 
       if [ ${file:0-7} == ".thrift" ]; then
-        $thrift -r --gen cpp -o $thrift_cpp_out $target/$file
+        #$thrift -r --gen cpp -o $thrift_out_dir $target/$file
+        $thrift -r --gen cpp --gen py --gen java -o $thrift_out_dir $target/$file
       fi
     done
   fi
 }
 
-compile_thrift $SCRIPT_DIR/learning/thrift
+#compile_thrift $SCRIPT_DIR/learning/thrift
+compile_thrift $SCRIPT_DIR/learning/openmit-idl
