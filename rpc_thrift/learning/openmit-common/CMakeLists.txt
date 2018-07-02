@@ -1,23 +1,43 @@
 cmake_minimum_required(VERSION 2.4) 
 
-#aux_source_directory(${PROJECT_SOURCE_DIR}/learning/openmit-common openmit_common)
-#set(sources "")
-#list(APPEND sources ${sources_openmit_common})
-#set(curlib openmit_common)
-#add_library(${curlib} STATIC ${sources})
-#target_link_libraries(${curlib} ${link_libs})
+project(openmit-idl)
 
-function (add_program arg)
-  list(LENGTH ARGV  argv_len)
-  if (NOT (${argv_len} STREQUAL "1")) 
-    message(FATAL_ERROR "argment number should be equals to 1")
-  endif()
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 -Wall -fPIC -mssse3 -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DHAVE_NETINET_IN_H")
 
-  set(prog_name ${ARGV0})
-  message(STATUS "exec_name: ${prog_name}, src_name: ${prog_name}.cc")
-  add_executable(${prog_name} "${prog_name}.cc")
-  target_link_libraries(${prog_name} ${link_libs})
-  #target_link_libraries(${prog_name} ${curlib} ${link_libs})
-endfunction()
+include_directories(
+  $ENV{THRIFT_HOME}/include 
+  ${PROJECT_SOURCE_DIR}/common
+)
 
-add_program("synchronizer_test")
+link_directories(
+  $ENV{THRIFT_HOME}/lib
+  ${PROJECT_SOURCE_DIR}
+)
+
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}) 
+
+set(link_libs
+  -pthread 
+  libthriftnb.a 
+  libthrift.a 
+  libsnappy.a
+  libevent.a
+  libevent_core.a
+  libevent_extra.a
+  libevent_openssl.a
+  libevent_pthreads.a
+  libglog.a
+  libgflags.a
+)
+
+aux_source_directory(common srcs_common)
+set(srcs "")
+list(APPEND srcs ${srcs_common})
+
+set(libname openmit_common)
+add_library(${libname} STATIC ${srcs})
+target_link_libraries(${libname} ${link_libs}) 
+
+add_subdirectory(test)
