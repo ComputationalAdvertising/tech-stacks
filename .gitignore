@@ -28,4 +28,7 @@ gen-pb/
 # Thrift output
 gen-cpp/
 gen-java/
-gen-py/
+gen-py/ 
+
+# Tmp
+nohup.out

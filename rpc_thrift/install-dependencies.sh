@@ -43,7 +43,21 @@ function install_libevent() {
   cp -r $THIRD_PARTY_DIR/deps/libevent/lib/libevent*.a $HOME/local/lib/
 }
 
+function install_openssl() {
+  cd $THIRD_PARTY_DIR
+  version=1.1.1
+  url=https://www.openssl.org/source/old/${version}/openssl-${version}-pre7.tar.gz
+  wget $url
+  tar -zxvf openssl-${version}-pre7.tar.gz
+  cd openssl-1.1.1-pre7
+  mkdir -p $HOME/local || echo "$HOME/local exists"
+  ./config --prefix=$HOME/local 
+  ./config -t
+  make && make install 
+}
+
 function install_thrift() {
+  export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
   cd $THIRD_PARTY_DIR 
   thrift_version=0.10.0
   url=https://github.com/apache/thrift/archive/${thrift_version}.tar.gz
@@ -53,9 +67,7 @@ function install_thrift() {
 
   install_dir=$THIRD_PARTY_DIR/deps/thrift-${thrift_version} && (mkdir -p $install_dir || echo "$install_dir exists")
   ./bootstrap.sh
-  ./configure --with-boost-libdir=$HOME/local/lib CXXFLAGS='-g -O3' CFLAGS='-g -O3' CPPFLAGS='-DDEBUG_MY_FEATURE' --enable-coverage --prefix=$install_dir --with-php=no --with-php_extension=no --with-dart=no --with-ruby=no --with-haskell=no --with-go=no --with-rs=no --with-haxe=no --with-dotnetcore=no --with-d=no --with-qt4=no --with-qt5=no --with-csharp=no --with-java=no --with-erlang=no --with-nodejs=no --with-lua=no --with-perl=no --with-python=no --with-cpp --with-libevent=$HOME/local
-  #./configure CXXFLAGS='-g -O3' CFLAGS='-g -O3' CPPFLAGS='-DDEBUG_MY_FEATURE' --enable-coverage --prefix=$install_dir --with-php=no --with-php_extension=no --with-dart=no --with-ruby=no --with-haskell=no --with-go=no --with-rs=no --with-haxe=no --with-dotnetcore=no --with-d=no --with-qt4=no --with-qt5=no --with-csharp=no --with-java=no --with-erlang=no --with-nodejs=no --with-lua=no --with-perl=no --with-python=no --with-cpp
-  #./configure --with-boost-libdir=/usr/lib/x86_64-linux-gnu CXXFLAGS='-g -O3' CFLAGS='-g -O3' CPPFLAGS='-DDEBUG_MY_FEATURE' --enable-coverage --prefix=$install_dir --with-php=no --with-php_extension=no --with-dart=no --with-ruby=no --with-haskell=no --with-go=no --with-rs=no --with-haxe=no --with-dotnetcore=no --with-d=no --with-qt4=no --with-qt5=no --with-csharp=no --with-java=no --with-erlang=no --with-nodejs=no --with-lua=no --with-perl=no --with-python=no --with-cpp
+  ./configure --with-boost-libdir=$HOME/local/lib CXXFLAGS='-g -O3 -fPIC' CFLAGS='-g -O3' CPPFLAGS='-DDEBUG_MY_FEATURE' --enable-coverage --prefix=$install_dir --with-php=no --with-php_extension=no --with-dart=no --with-ruby=no --with-haskell=no --with-go=no --with-rs=no --with-haxe=no --with-dotnetcore=no --with-d=no --with-qt4=no --with-qt5=no --with-csharp=no --with-java=no --with-erlang=no --with-nodejs=no --with-lua=no --with-perl=no --with-python=no --with-cpp --with-libevent=$HOME/local --with-openssl=$HOME/local --enable-tests=no
   make -j8 && make install 
   link_dir=$THIRD_PARTY_DIR/deps && (mkdir -p $link_dir || echo "$link_dir exists")
   cd $THIRD_PARTY_DIR/deps 
@@ -63,8 +75,8 @@ function install_thrift() {
 
   if [ $? -eq 0 ]; then
     echo "successful to build thrift. drop raw package."
-    #rm $THIRD_PARTY_DIR/${thrift_version}.tar.gz* || echo "rm done!"
-    #rm -rf $THIRD_PARTY_DIR/thrift-${thrift_version} || echo "rm done!"
+    rm $THIRD_PARTY_DIR/${thrift_version}.tar.gz* || echo "rm done!"
+    rm -rf $THIRD_PARTY_DIR/thrift-${thrift_version} || echo "rm done!"
   else
     echo "failed to build thrift.."
   fi
@@ -92,6 +104,7 @@ function install_snappy() {
 ################################## 
 # deps
 install_libevent
+install_openssl
 # 1. Thrift 
 install_thrift
 # 2. Snappy 

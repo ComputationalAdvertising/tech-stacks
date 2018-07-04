@@ -11,10 +11,8 @@ cd $THIRD_PARTY_DIR
 # gflags
 url=https://github.com/gflags/gflags.git 
 git clone $url
-
-if [ ! -d gflags/build_gflags ]; then
-  mkdir -p gflags/build_gflags || echo "build_gflags exists!"
-fi
-cd gflags/build_gflags && cmake .. -DCMAKE_INSTALL_PREFIX=$THIRD_PARTY_DIR/deps && make && make install
+mkdir -p gflags/build_gflags || echo "build_gflags exists"
+cd gflags/build_gflags 
+export CXXFLAGS="-fPIC" && cmake .. -DCMAKE_INSTALL_PREFIX=$THIRD_PARTY_DIR/deps && make VERBOSE=1 && make install
 
 echo "======== ${BASH_SOURCE[0]} ========"

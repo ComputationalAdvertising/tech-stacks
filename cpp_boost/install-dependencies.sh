@@ -16,7 +16,7 @@ function install_boost() {
   cd $SCRIPT_DIR/third_party 
   version=1_60_0 
   raw_version=1.60.0
-  wget http://sourceforge.net/projects/boost/files/boost/${raw_version}/boost_${version}.tar.gz
+  wget --no-check-certificate http://sourceforge.net/projects/boost/files/boost/${raw_version}/boost_${version}.tar.gz
   tar -zxvf boost_${version}.tar.gz 
   cd boost_${version}
 

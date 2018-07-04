@@ -20,10 +20,9 @@ function install_glog() {
   wget $url
   tar -zxvf v${glog_version}.tar.gz && cd glog-$glog_version
 
-  install_dir=$THIRD_PARTY_DIR/deps/glog-$glog_version && make -p $install_dir || true
-  #./autogen.sh
-  ./configure --prefix=$install_dir 
-  make -j8 && make install 
+  install_dir=$THIRD_PARTY_DIR/deps/glog-$glog_version && (mkdir -p $install_dir || true)
+  ./configure CFLAGS="-g -O3 -fPIC" CXXFLAGS="-g -O3 -fPIC" --prefix=$install_dir 
+  make -j8  && make install 
   cd $THIRD_PARTY_DIR/deps
   ln -s glog-$glog_version glog
 
