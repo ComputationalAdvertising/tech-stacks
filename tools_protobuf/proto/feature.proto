@@ -1,0 +1,33 @@
+// protoc -I=$SRC_DIR --cpp_out=$DST_DIR $SRC_DIR/xxx.proto
+// protoc --cpp_out=. feature.proto
+
+syntax = "proto2";
+
+package mlx.feature.pb;
+
+message KVPair {
+    string key = 1;
+    string value = 2;
+}
+
+message UserFeature
+{
+    repeated KVPair pairs = 1;
+}
+
+message RequestFeature
+{
+    repeated KVPair pairs = 1;
+}
+
+message ItemFeature
+{
+    repeated KVPair pairs = 1;
+}
+
+message RawFeature
+{
+    UserFeature user_feature = 1;
+    RequestFeature request_feature = 2;
+    repeated ItemFeature item_feature = 3;
+}

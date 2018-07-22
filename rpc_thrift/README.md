@@ -10,6 +10,7 @@
 | `boost` | `1.60.0` | yes | 依赖库，因muduo不支持高版本boost，因此最高boost版本为1.60.0 （也是ubuntu16.04的默认版本） |
 | `libevent` | `2.0.22` | yes | 依赖库，使用`TNonBlockingServer`需要libevent. 需要提前安装libevent. 并且configure thrift时要指定目录 `-with-libevent=${dir}` |
 | `openssl` | `1.1.1` | yes (for centos) | 依赖库，centos默认不安装openssl(ubuntu默认有)，需要先安装openssl, 安装thrift前 需要`export LD_LIBRARY_PATH=${OPENSSL_HOME}/lib:$LD_LIBRARY_PATH` |
+| `bison` | > `2.5.0` |
 
 ## 安装 
 
@@ -19,6 +20,7 @@
 + `libevent`: 网络库。`TNonBlockingServer`需要libevent；
 + `snappy`: 数据压缩工具，主要包含`Compress`和`UnCompress`功能；
 + `openssl`: thrift依赖的加密工具库;
++ `bisor`: configure: error: Bison version 2.5 or higher must be installed on the system!
 + `build.sh`中需设定`export ${THRIFT_HOME}`和`export ${PROTOBUF_HOME}`
 
 ## 示例

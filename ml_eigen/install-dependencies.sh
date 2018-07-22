@@ -12,6 +12,11 @@ THIRD_PARTY_DIR=$SCRIPT_DIR/third_party
 
 if [ ! -d $THIRD_PARTY_DIR ]; then mkdir -p $THIRD_PARTY_DIR; fi 
 
+export LD_LIBRARY_PATH=${HOME}/lib:${LD_LIBRARY_PATH}
+export LIBRARY_PATH=${HOME}/lib:${LIBRARY_PATH}
+export C_INCLUDE_PATH=${HOME}/include:${C_INCLUDE_PATH}
+export CPLUS_INCLUDE_PATH=${HOME}/include:${CPLUS_INCLUDE_PATH}
+
 ##################################
 function install_eigen() {
   cd $THIRD_PARTY_DIR 

@@ -12,10 +12,6 @@ third_party/
 deps/
 
 # Project
-common/
-graph/ 
-proto/ 
-model/ 
 
 # Java
 openmit-streaming/.idea/

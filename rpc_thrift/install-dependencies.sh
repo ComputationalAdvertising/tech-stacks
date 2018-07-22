@@ -17,15 +17,20 @@ if [ ! -d $THIRD_PARTY_DIR ]; then mkdir -p $THIRD_PARTY_DIR; fi
 ################################## 
 # deps 
 function install_libevent() { 
+  export LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH
+  export LIBRARY_PATH=$HOME/local/lib:$LIBRARY_PATH
+  export C_INCLUDE_PATH=$HOME/local/include:$C_INCLUDE_PATH
+  export CPLUS_INCLUDE_PATH=$HOME/local/include:$CPLUS_INCLUDE_PATH
   cd $THIRD_PARTY_DIR
   version=2.0.22
   url=https://github.com/nmathewson/Libevent/archive/release-${version}-stable.tar.gz
-  wget $url 
+  #wget $url 
   tar -zxvf release-${version}-stable.tar.gz  
   cd Libevent-release-${version}-stable 
   aclocal && autoconf && autoheader && libtoolize --automake --copy --debug  --force && automake -a  
   install_dir=$THIRD_PARTY_DIR/deps/libevent-$version && (mkdir -p $install_dir || echo "$install_dir exists!")
-  ./configure --prefix=$install_dir 
+  #./configure CPPFLAGS="-g -O3 -fPIC -I$HOME/local/include" LDFLAGS="-L$HOME/lib" --prefix=$install_dir
+  ./configure --disable-openssl --prefix=$install_dir 
   make && make install 
   link_dir=$THIRD_PARTY_DIR/deps && (mkdir -p $link_dir || echo "$link_dir exists!")
   cd $THIRD_PARTY_DIR/deps && ln -s libevent-$version libevent 
@@ -57,7 +62,10 @@ function install_openssl() {
 }
 
 function install_thrift() {
-  export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH
+  export LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH
+  export LIBRARY_PATH=$HOME/local/lib:$LIBRARY_PATH
+  export C_INCLUDE_PATH=$HOME/local/include:$C_INCLUDE_PATH
+  export CPLUS_INCLUDE_PATH=$HOME/local/include:$CPLUS_INCLUDE_PATH
   cd $THIRD_PARTY_DIR 
   thrift_version=0.10.0
   url=https://github.com/apache/thrift/archive/${thrift_version}.tar.gz
@@ -103,8 +111,9 @@ function install_snappy() {
 
 ################################## 
 # deps
-install_libevent
-install_openssl
+#install_openssl
+
+#install_libevent
 # 1. Thrift 
 install_thrift
 # 2. Snappy 
