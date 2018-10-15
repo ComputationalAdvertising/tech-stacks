@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <functional>
 #include <iostream>
+#include "core/basic.h"
 
 DEFINE_string(conf_path, "", "program configure file.");
 DEFINE_int32(port, 9090, "program listen port.");
@@ -42,7 +43,10 @@ int main(int argc, char** argv) {
   };
   create_kernel = lambda;
 
-  std::cout << "i+j: " << create_kernel(10, 20) << std::endl;
+  std::cout << "i+j: " << create_kernel(10, 20) << std::endl; 
+
+  Test test;
+  test.print();
 
   return 0;
 }

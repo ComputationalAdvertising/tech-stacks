@@ -5,6 +5,8 @@ set -o errexit
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+rm -rf third_party/deps/cityhash || true 
+
 if [ ! -d third_party ]; then
   mkdir -p third_party
 fi 
@@ -17,7 +19,7 @@ cd cityhash
 install_dir=$SCRIPT_DIR/third_party/deps/cityhash
 mkdir -p $install_dir || true
 ./configure --enable-sse4.2 --prefix=$install_dir 
-make all check CXXFLAGS="-g -O3 -msse4.2"
+make all check CXXFLAGS="-g -O3 -msse4.2 -fPIC"
 make install
 
 echo "======== ${BASH_SOURCE[0]} ========"
