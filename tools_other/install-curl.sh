@@ -18,7 +18,14 @@ tar -zxvf curl-${version}.tar.gz && cd curl-$version
 
 install_dir=$SCRIPT_DIR/third_party/deps/curl-$version
 mkdir -p $install_dir || true
-./configure --prefix=$install_dir --disable-shared --with-pic && make -j8 && make install 
+
+##############################################
+# curl依赖openssl项目，因此在configure时需要指定openssl信息
+# openssl相关库文件（ssl, crypto）要放在LD_LIBRARY_PATH中
+# 注：linux 64位机器环境下 openssl的库文件路径 可能在$prefix/lib64下面
+##############################################
+export LD_LIBRARY_PATH=$HOME/.openmit_deps/lib:$HOME/.openmit_deps/lib64:$LD_LIBRARY_PATH  
+./configure --prefix=$install_dir --with-ssl=$HOME/.openmit_deps LDFLAGS="-L$HOME/.openmit_deps/lib -L$HOME/.openmit_deps/lib64" LIBS="-lssl -lcrypto" --with-pic && make -j8 && make install 
 
 link_dir=$SCRIPT_DIR/third_party/deps/curl 
 cd $SCRIPT_DIR/third_party/deps
