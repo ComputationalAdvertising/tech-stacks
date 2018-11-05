@@ -76,6 +76,10 @@ void tensor_basic() {
   Eigen::Tensor<float, 3, Eigen::RowMajor> sliced_tensor = tensor.slice(startIdx, extent);
   std::cout << "[Tensor] sliced_tensor:\n" << sliced_tensor << std::endl;
 
+  // swap op 
+  Eigen::Tensor<float, 3> swapped_tensor = Eigen::TensorLayoutSwapOp<Eigen::Tensor<float, 3, Eigen::RowMajor>>(tensor);
+  std::cout << "[Tensor] swapped_tensor:\n" << swapped_tensor << std::endl;
+
   // element-wise product 
   Eigen::Tensor<float, 3, Eigen::RowMajor> t1 = tensor * tensor;
   std::cout << "[Tensor] Tensor element-wise product:\n" << t1 << std::endl;
