@@ -16,6 +16,7 @@ typedef Eigen::Matrix<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> Ma
 typedef Eigen::Matrix<int, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixI;
 typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatrixD;
 
+// 1. Basic
 void matrix_basic() {
   int size = 20, rows = 4, cols = size / rows;
   std::vector<float> v(size);
@@ -26,8 +27,9 @@ void matrix_basic() {
   auto mmap = Eigen::Map<MatrixF>(v.data(), rows, cols);
   MatrixF matrixf = mmap * 2.0f;
 
-  std::cout << "[Matrix Basic] mmap:\n" << mmap << std::endl;
-  std::cout << "[Matrix Basic] matrixf:\n" << matrixf << std::endl;
+  printf("===================== [Matrix Basic] ====================\n");
+  std::cout << "mmap:\n" << mmap << std::endl;
+  std::cout << "matrixf:\n" << matrixf << std::endl;
 }
 
 // 2. MatrixXd * MatrixXd 
@@ -44,10 +46,34 @@ void matrix_dynamic(MatrixF& m) {
   std::cout << "[EXP3] Eigen::Dynamic m =\n" << m << "\nm.row(1):\n" << m.row(1) << std::endl;
 }
 
+// 4. rowwise/colwise
+void matrix_row_col_wise() {
+  MatrixI w(3,4);
+  MatrixI b(1,4);
+  for (int i = 0; i < 3; ++i) {
+    for (int j = 0; j < 4; ++j) {
+      w(i, j) = i*4 + j;
+    }
+    if (i == 0) {
+      for (int j = 0; j < 4; ++j) {
+        b(i, j) = j;
+      }
+    }
+  }
+
+  std::cout << "[EXP4] w:\n" << w << std::endl;
+  std::cout << "[EXP4] b:\n" << b << std::endl;
+
+  std::cout << "----- compute 'w.rowwise() + b.row(0)' -----" << std::endl;
+  std::cout << w.rowwise() + b.row(0) << std::endl;
+}
+
 int main(int argc, char** argv) {
   // Basic
-  matrix_basic();
+  //matrix_basic();
+  matrix_row_col_wise();
 
+  /*
   Eigen::MatrixXd m = MatrixXd::Constant(4,4,0.1);
   m(0, 1) = -1;
   m(1, 1) = m(1, 0) + m(0, 1);
@@ -68,6 +94,6 @@ int main(int argc, char** argv) {
   // 3. matrix dynamic 
   MatrixF mf;
   matrix_dynamic(mf);
-
+  */
   return 0;
 }

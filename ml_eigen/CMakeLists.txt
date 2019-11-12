@@ -5,6 +5,10 @@ project(rpc_thrift)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 -Wall -fPIC -mssse3 -std=c++11")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DHAVE_NETINET_IN_H")
 
+# eigen use thread_pool and gpu
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEIGEN_USE_THREADS")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEIGEN_USE_GPU")
+
 include_directories(
   ${PROJECT_SOURCE_DIR}/third_party/deps/eigen/include/eigen3
 )

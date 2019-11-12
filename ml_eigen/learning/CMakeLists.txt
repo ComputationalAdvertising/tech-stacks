@@ -13,5 +13,7 @@ function (add_program arg)
   target_link_libraries(${prog_name})
 endfunction()
 
+add_program("eigen_unaryexpr_test")
 add_program("matrix_basic")
 add_program("matrix_tensormap")
+add_program("conv2d")
