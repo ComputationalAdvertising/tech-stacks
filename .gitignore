@@ -14,7 +14,10 @@ deps/
 # Project
 
 # Java
-openmit-streaming/.idea/
+openmit-streaming/.idea/ 
+.settings/
+.project
+.classpath
 .idea/ 
 target/ 
 

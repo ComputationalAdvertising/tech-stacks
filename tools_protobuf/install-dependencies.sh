@@ -5,6 +5,12 @@ set -o errexit
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+unzip=`which unzip`
+if [[ $unzip == "" ]]; then
+  echo "[ERROR] 'unzip' command not exists. install protobuf need depend to 'unzip' command when execing autogen.sh"
+  exit 1
+fi
+
 if [ ! -d third_party ]; then
   mkdir -p third_party
 fi 
@@ -16,9 +22,14 @@ wget $url
 tar -zxvf v${version}.tar.gz
 
 install_dir=$SCRIPT_DIR/third_party/deps/protobuf-$version
-cd protobuf-$version && ./autogen.sh
 mkdir -p $install_dir || true
-./configure --prefix=$install_dir --with-pic && make clean && make -j8 && make check && make install 
+cd protobuf-$version
+./autogen.sh
+./configure --prefix=$install_dir --with-pic
+make clean 
+make -j8
+make check
+make install 
 
 link_dir=$SCRIPT_DIR/third_party/deps/protobuf 
 cd $SCRIPT_DIR/third_party/deps
